@@ -1,0 +1,228 @@
+.json-tool-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+}
+
+.json-tool-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.json-tool-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.tab-button.active {
+  background-color: #1890ff;
+  color: white;
+  border-color: #1890ff;
+}
+
+.json-tool-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* JSON 查看器样式 */
+.json-viewer, .json-formatter {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.json-input-section, .formatter-input-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 50%;
+}
+
+.input-header, .output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.input-actions, .output-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.json-textarea {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  resize: none;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.json-output-section, .formatter-output-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.json-view-container {
+  flex: 1;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 12px;
+  overflow: auto;
+  background-color: #fafafa;
+  min-height: 0;
+}
+
+.error-message {
+  color: #ff4d4f;
+  margin-top: 8px;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #bfbfbf;
+  font-size: 16px;
+}
+
+.button {
+  padding: 6px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.button:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.upload-button {
+  background-color: #f0f5ff;
+  border-color: #d6e4ff;
+  color: #1890ff;
+}
+
+.clear-button {
+  background-color: #fff;
+  border-color: #d9d9d9;
+}
+
+.format-button, .copy-button {
+  background-color: #1890ff;
+  border-color: #1890ff;
+  color: white;
+}
+
+.format-button:hover, .copy-button:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+  color: white;
+}
+
+.minify-button {
+  background-color: #52c41a;
+  border-color: #52c41a;
+  color: white;
+}
+
+.minify-button:hover {
+  background-color: #73d13d;
+  border-color: #73d13d;
+  color: white;
+}
+
+.download-button {
+  background-color: #faad14;
+  border-color: #faad14;
+  color: white;
+}
+
+.download-button:hover {
+  background-color: #ffc53d;
+  border-color: #ffc53d;
+  color: white;
+}
+
+.button:disabled {
+  background-color: #f5f5f5;
+  border-color: #d9d9d9;
+  color: #bfbfbf;
+  cursor: not-allowed;
+}
+
+/* 格式化器特定样式 */
+.formatter-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 10px 0;
+}
+
+.indent-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.indent-select {
+  padding: 6px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}
+
+.formatted-output {
+  flex: 1;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 12px;
+  overflow: auto;
+  background-color: #fafafa;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  white-space: pre-wrap;
+  min-height: 0;
+}
+
+.placeholder-text {
+  color: #bfbfbf;
+} 
