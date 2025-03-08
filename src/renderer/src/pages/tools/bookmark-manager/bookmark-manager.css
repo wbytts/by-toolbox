@@ -22,25 +22,25 @@
 
 .search-input {
   padding: 8px 12px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
   width: 250px;
   font-size: 14px;
 }
 
 .add-button {
   padding: 8px 16px;
-  background-color: #1890ff;
+  background-color: #333;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 2px;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s;
 }
 
 .add-button:hover {
-  background-color: #40a9ff;
+  background-color: #555;
 }
 
 .bookmark-content {
@@ -48,17 +48,14 @@
   flex: 1;
   gap: 20px;
   overflow: hidden;
-  min-height: 0;
 }
 
 .category-sidebar {
   width: 200px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  padding: 15px;
+  border-right: 1px solid #ddd;
+  padding-right: 20px;
   overflow-y: auto;
   flex-shrink: 0;
-  max-height: 100%;
 }
 
 .category-list {
@@ -70,62 +67,63 @@
 .category-item {
   padding: 8px 12px;
   margin-bottom: 5px;
-  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  border-radius: 2px;
+  transition: background-color 0.2s;
 }
 
 .category-item:hover {
-  background-color: #e6f7ff;
+  background-color: #f0f0f0;
 }
 
 .category-item.active {
-  background-color: #1890ff;
-  color: white;
+  background-color: #e6e6e6;
+  font-weight: 500;
 }
 
 .bookmark-main {
   flex: 1;
   overflow-y: auto;
-  background-color: #fff;
-  border-radius: 4px;
-  border: 1px solid #f0f0f0;
-  padding: 15px;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
   min-height: 0;
 }
 
-/* 书签列表样式 */
 .bookmark-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 15px;
+  gap: 20px;
 }
 
 .bookmark-card {
-  border: 1px solid #f0f0f0;
-  border-radius: 4px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
   padding: 15px;
   background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .bookmark-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .bookmark-card-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
   margin-bottom: 10px;
 }
 
 .bookmark-title {
-  margin: 0;
   font-size: 16px;
-  color: #1890ff;
-  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+  text-decoration: none;
+  word-break: break-word;
+  line-height: 1.4;
 }
 
 .bookmark-title:hover {
@@ -133,72 +131,82 @@
 }
 
 .bookmark-category {
-  font-size: 12px;
-  background-color: #f5f5f5;
+  display: block;
   padding: 2px 8px;
-  border-radius: 10px;
-  color: #595959;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 10px;
+  width: fit-content;
 }
 
 .bookmark-url {
-  font-size: 14px;
-  color: #8c8c8c;
+  display: block;
   margin-bottom: 10px;
+  font-size: 14px;
+  color: #555;
   word-break: break-all;
-  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.4;
 }
 
 .bookmark-url:hover {
-  color: #1890ff;
+  text-decoration: underline;
 }
 
 .bookmark-description {
   font-size: 14px;
+  color: #666;
   margin-bottom: 15px;
-  color: #595959;
+  line-height: 1.4;
 }
 
 .bookmark-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px;
-  color: #8c8c8c;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: auto;
   padding-top: 10px;
   border-top: 1px solid #f0f0f0;
 }
 
+.bookmark-date {
+  font-size: 12px;
+  color: #888;
+}
+
 .bookmark-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 .edit-button, .delete-button {
-  padding: 4px 8px;
-  border: none;
-  border-radius: 4px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
   cursor: pointer;
   font-size: 12px;
-  transition: background-color 0.3s;
+  transition: all 0.2s;
 }
 
 .edit-button {
-  background-color: #f0f5ff;
-  color: #1890ff;
+  background-color: #f0f0f0;
+  color: #333;
 }
 
 .edit-button:hover {
-  background-color: #d6e4ff;
+  background-color: #e6e6e6;
 }
 
 .delete-button {
-  background-color: #fff1f0;
-  color: #ff4d4f;
+  background-color: #f0f0f0;
+  color: #333;
 }
 
 .delete-button:hover {
-  background-color: #ffccc7;
+  background-color: #e6e6e6;
 }
 
 .empty-bookmarks {
@@ -206,95 +214,95 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  color: #bfbfbf;
+  height: 200px;
+  color: #888;
 }
 
 .empty-bookmarks p {
-  margin: 5px 0;
+  margin-bottom: 15px;
 }
 
 .empty-hint {
   font-size: 14px;
+  color: #888;
 }
 
-/* 表单样式 */
 .bookmark-form-container {
-  width: 100%;
+  padding: 20px;
   overflow-y: auto;
 }
 
 .bookmark-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .form-group {
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
 .form-group label {
+  margin-bottom: 5px;
   font-weight: 500;
-  font-size: 14px;
 }
 
 .form-group input, .form-group textarea, .form-group select {
   padding: 8px 12px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
   font-size: 14px;
 }
 
 .form-group input.error, .form-group textarea.error, .form-group select.error {
-  border-color: #ff4d4f;
+  border-color: #888;
 }
 
 .error-message {
-  color: #ff4d4f;
+  color: #555;
   font-size: 12px;
+  margin-top: 5px;
 }
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .cancel-button, .submit-button {
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 2px;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.3s;
+  transition: background-color 0.3s;
 }
 
 .cancel-button {
-  background-color: #f5f5f5;
-  border: 1px solid #d9d9d9;
-  color: #595959;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
 }
 
 .cancel-button:hover {
-  background-color: #e8e8e8;
+  background-color: #e6e6e6;
 }
 
 .submit-button {
-  background-color: #1890ff;
-  border: 1px solid #1890ff;
+  background-color: #333;
   color: white;
+  border: none;
 }
 
 .submit-button:hover {
-  background-color: #40a9ff;
-  border-color: #40a9ff;
+  background-color: #555;
 }
 
 .category-selection {
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
@@ -303,31 +311,31 @@
 }
 
 .add-category-button, .cancel-category-button {
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 6px 12px;
+  border-radius: 2px;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.3s;
+  transition: background-color 0.3s;
 }
 
 .add-category-button {
-  background-color: #f0f5ff;
-  border: 1px solid #d6e4ff;
-  color: #1890ff;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
 }
 
 .add-category-button:hover {
-  background-color: #d6e4ff;
+  background-color: #e6e6e6;
 }
 
 .cancel-category-button {
-  background-color: #fff1f0;
-  border: 1px solid #ffccc7;
-  color: #ff4d4f;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
 }
 
 .cancel-category-button:hover {
-  background-color: #ffccc7;
+  background-color: #e6e6e6;
 }
 
 .new-category-input {

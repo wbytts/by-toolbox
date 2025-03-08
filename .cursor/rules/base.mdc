@@ -1,0 +1,11 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+1. 新建文件(js/ts/jsx/tsx)，或目录时，始终采用 小写+短横线 形式的文件命名
+2. 配色风格优先选择 [黑白灰] 配色
+
+
+

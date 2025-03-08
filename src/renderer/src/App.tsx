@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import JsonViewerTool from './pages/tools/json-viewer'
 import BookmarkManager from './pages/tools/bookmark-manager'
+import TitleBar from './components/app-top-header'
 
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
@@ -9,6 +10,7 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <div className="app-container">
+        <TitleBar />
         <div className="app-content">
           <nav className="app-sidebar">
             <ul className="nav-list">

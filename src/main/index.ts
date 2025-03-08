@@ -9,11 +9,18 @@ function createWindow(): void {
     width: 900,
     height: 670,
     show: false,
-    autoHideMenuBar: true,
+    alwaysOnTop: true, // 窗口始终在其他窗口之上
+    autoHideMenuBar: true, // 隐藏菜单栏
+    frame: false, // 隐藏窗口边框
+    titleBarStyle: 'hidden', // 隐藏标题栏
+    title: '冰冰工具箱', // 设置窗口标题
+    icon: join(__dirname, '../../resources/rollup.jpg'), // 设置窗口图标
+
     ...(process.platform === 'linux' ? { icon } : {}),
+
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      preload: join(__dirname, '../preload/index.js'), // 预加载脚本
+      sandbox: false // 启用沙盒
     }
   })
 
@@ -50,6 +57,28 @@ app.whenReady().then(() => {
 
   // IPC测试
   ipcMain.on('ping', () => console.log('pong'))
+
+  // 窗口控制
+  ipcMain.on('window-minimize', () => {
+    const win = BrowserWindow.getFocusedWindow()
+    if (win) win.minimize()
+  })
+
+  ipcMain.on('window-maximize', () => {
+    const win = BrowserWindow.getFocusedWindow()
+    if (win) {
+      if (win.isMaximized()) {
+        win.unmaximize()
+      } else {
+        win.maximize()
+      }
+    }
+  })
+
+  ipcMain.on('window-close', () => {
+    const win = BrowserWindow.getFocusedWindow()
+    if (win) win.close()
+  })
 
   createWindow()
 
