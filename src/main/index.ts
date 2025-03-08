@@ -9,7 +9,7 @@ function createWindow(): void {
     width: 900,
     height: 670,
     show: false,
-    alwaysOnTop: true, // 窗口始终在其他窗口之上
+    alwaysOnTop: false, // 默认不置顶
     autoHideMenuBar: true, // 隐藏菜单栏
     frame: false, // 隐藏窗口边框
     titleBarStyle: 'hidden', // 隐藏标题栏
@@ -78,6 +78,26 @@ app.whenReady().then(() => {
   ipcMain.on('window-close', () => {
     const win = BrowserWindow.getFocusedWindow()
     if (win) win.close()
+  })
+
+  // 控制窗口置顶
+  ipcMain.on('window-toggle-always-on-top', () => {
+    const win = BrowserWindow.getFocusedWindow()
+    if (win) {
+      const isAlwaysOnTop = win.isAlwaysOnTop()
+      win.setAlwaysOnTop(!isAlwaysOnTop)
+      return !isAlwaysOnTop
+    }
+    return false
+  })
+
+  // 获取窗口置顶状态
+  ipcMain.handle('window-get-always-on-top', () => {
+    const win = BrowserWindow.getFocusedWindow()
+    if (win) {
+      return win.isAlwaysOnTop()
+    }
+    return false
   })
 
   createWindow()

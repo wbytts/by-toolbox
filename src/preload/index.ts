@@ -13,6 +13,13 @@ const api = {
     },
     close: (): void => {
       ipcRenderer.send('window-close')
+    },
+    toggleAlwaysOnTop: async (): Promise<boolean> => {
+      ipcRenderer.send('window-toggle-always-on-top')
+      return await ipcRenderer.invoke('window-get-always-on-top')
+    },
+    isAlwaysOnTop: async (): Promise<boolean> => {
+      return await ipcRenderer.invoke('window-get-always-on-top')
     }
   }
 }

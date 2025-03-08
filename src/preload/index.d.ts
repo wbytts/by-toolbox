@@ -8,6 +8,8 @@ declare global {
         minimize: () => void
         maximize: () => void
         close: () => void
+        toggleAlwaysOnTop: () => Promise<boolean>
+        isAlwaysOnTop: () => Promise<boolean>
       }
     }
   }
