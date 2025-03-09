@@ -29,8 +29,12 @@ function createWindow(): void {
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
+    // 只有外部链接才使用外部浏览器打开
+    if (details.url.startsWith('http:') || details.url.startsWith('https:')) {
+      shell.openExternal(details.url)
+      return { action: 'deny' }
+    }
+    return { action: 'allow' }
   })
 
   // 基于electron-vite cli的渲染器热更新

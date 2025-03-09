@@ -1,4 +1,4 @@
-.bookmark-manager {
+.bookmarkManager {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -7,7 +7,7 @@
   overflow: hidden;
 }
 
-.bookmark-header {
+.bookmarkHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,12 +15,12 @@
   flex-shrink: 0;
 }
 
-.bookmark-actions {
+.bookmarkActions {
   display: flex;
   gap: 10px;
 }
 
-.search-input {
+.searchInput {
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 2px;
@@ -28,7 +28,7 @@
   font-size: 14px;
 }
 
-.add-button {
+.addButton {
   padding: 8px 16px;
   background-color: #333;
   color: white;
@@ -39,18 +39,18 @@
   transition: background-color 0.3s;
 }
 
-.add-button:hover {
+.addButton:hover {
   background-color: #555;
 }
 
-.bookmark-content {
+.bookmarkContent {
   display: flex;
   flex: 1;
   gap: 20px;
   overflow: hidden;
 }
 
-.category-sidebar {
+.categorySidebar {
   width: 200px;
   border-right: 1px solid #ddd;
   padding-right: 20px;
@@ -58,13 +58,13 @@
   flex-shrink: 0;
 }
 
-.category-list {
+.categoryList {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.category-item {
+.categoryItem {
   padding: 8px 12px;
   margin-bottom: 5px;
   cursor: pointer;
@@ -72,16 +72,16 @@
   transition: background-color 0.2s;
 }
 
-.category-item:hover {
+.categoryItem:hover {
   background-color: #f0f0f0;
 }
 
-.category-item.active {
+.active {
   background-color: #e6e6e6;
   font-weight: 500;
 }
 
-.bookmark-main {
+.bookmarkMain {
   flex: 1;
   overflow-y: auto;
   padding-left: 10px;
@@ -90,13 +90,13 @@
   min-height: 0;
 }
 
-.bookmark-list {
+.bookmarkList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
 
-.bookmark-card {
+.bookmarkCard {
   border: 1px solid #ddd;
   border-radius: 2px;
   padding: 15px;
@@ -106,31 +106,31 @@
   flex-direction: column;
 }
 
-.bookmark-card:hover {
+.bookmarkCard:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.bookmark-card-header {
+.bookmarkCardHeader {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
 }
 
-.bookmark-title {
+.bookmarkTitle {
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 8px;
   color: #333;
-  text-decoration: none;
   word-break: break-word;
   line-height: 1.4;
+  text-decoration: none;
 }
 
-.bookmark-title:hover {
+.bookmarkTitle:hover {
   text-decoration: underline;
 }
 
-.bookmark-category {
+.bookmarkCategory {
   display: block;
   padding: 2px 8px;
   background-color: #f0f0f0;
@@ -141,7 +141,7 @@
   width: fit-content;
 }
 
-.bookmark-url {
+.bookmarkUrl {
   display: block;
   margin-bottom: 10px;
   font-size: 14px;
@@ -151,38 +151,32 @@
   line-height: 1.4;
 }
 
-.bookmark-url:hover {
+.bookmarkUrl:hover {
   text-decoration: underline;
 }
 
-.bookmark-description {
+.bookmarkDescription {
   font-size: 14px;
   color: #666;
   margin-bottom: 15px;
   line-height: 1.4;
 }
 
-.bookmark-footer {
+.bookmarkFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
   margin-top: auto;
   padding-top: 10px;
   border-top: 1px solid #f0f0f0;
 }
 
-.bookmark-date {
+.bookmarkDate {
   font-size: 12px;
   color: #888;
 }
 
-.bookmark-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.edit-button, .delete-button {
+.editButton, .deleteButton, .backButton {
   padding: 5px 10px;
   border: 1px solid #ddd;
   border-radius: 2px;
@@ -191,25 +185,34 @@
   transition: all 0.2s;
 }
 
-.edit-button {
+.editButton {
   background-color: #f0f0f0;
   color: #333;
 }
 
-.edit-button:hover {
+.editButton:hover {
   background-color: #e6e6e6;
 }
 
-.delete-button {
+.deleteButton {
   background-color: #f0f0f0;
   color: #333;
 }
 
-.delete-button:hover {
+.deleteButton:hover {
   background-color: #e6e6e6;
 }
 
-.empty-bookmarks {
+.backButton {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.backButton:hover {
+  background-color: #e6e6e6;
+}
+
+.emptyBookmarks {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -218,61 +221,61 @@
   color: #888;
 }
 
-.empty-bookmarks p {
+.emptyBookmarks p {
   margin-bottom: 15px;
 }
 
-.empty-hint {
+.emptyHint {
   font-size: 14px;
   color: #888;
 }
 
-.bookmark-form-container {
+.bookmarkFormContainer {
   padding: 20px;
   overflow-y: auto;
 }
 
-.bookmark-form {
+.bookmarkForm {
   max-width: 600px;
   margin: 0 auto;
 }
 
-.form-group {
+.formGroup {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
 
-.form-group label {
+.formGroup label {
   margin-bottom: 5px;
   font-weight: 500;
 }
 
-.form-group input, .form-group textarea, .form-group select {
+.formGroup input, .formGroup textarea, .formGroup select {
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 2px;
   font-size: 14px;
 }
 
-.form-group input.error, .form-group textarea.error, .form-group select.error {
-  border-color: #888;
+.error {
+  border-color: #888 !important;
 }
 
-.error-message {
+.errorMessage {
   color: #555;
   font-size: 12px;
   margin-top: 5px;
 }
 
-.form-actions {
+.formActions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
 }
 
-.cancel-button, .submit-button {
+.cancelButton, .submitButton {
   padding: 8px 16px;
   border-radius: 2px;
   cursor: pointer;
@@ -280,69 +283,52 @@
   transition: background-color 0.3s;
 }
 
-.cancel-button {
+.cancelButton {
   background-color: #f0f0f0;
   color: #333;
   border: 1px solid #ddd;
 }
 
-.cancel-button:hover {
+.cancelButton:hover {
   background-color: #e6e6e6;
 }
 
-.submit-button {
+.submitButton {
   background-color: #333;
   color: white;
   border: none;
 }
 
-.submit-button:hover {
+.submitButton:hover {
   background-color: #555;
 }
 
-.category-selection {
+.categorySelection {
   display: flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
 }
 
-.category-selection select {
+.categorySelection select, .categorySelection input {
   flex: 1;
 }
 
-.add-category-button, .cancel-category-button {
+.addCategoryButton, .cancelCategoryButton {
   padding: 6px 12px;
   border-radius: 2px;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s;
-}
-
-.add-category-button {
   background-color: #f0f0f0;
   color: #333;
   border: 1px solid #ddd;
 }
 
-.add-category-button:hover {
+.addCategoryButton:hover, .cancelCategoryButton:hover {
   background-color: #e6e6e6;
 }
 
-.cancel-category-button {
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ddd;
-}
-
-.cancel-category-button:hover {
-  background-color: #e6e6e6;
-}
-
-.new-category-input {
+.newCategoryInput {
   display: flex;
   gap: 10px;
-}
-
-.new-category-input input {
-  flex: 1;
 } 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BookmarkList } from './components/bookmark-list';
 import { BookmarkForm } from './components/bookmark-form';
-import './bookmark-manager.css';
+import styles from './bookmark-manager.module.scss';
 
 interface Bookmark {
   id: string;
@@ -55,106 +55,115 @@ const BookmarkManager = () => {
     }
   }, [bookmarks]);
 
-  const addBookmark = (bookmark: Omit<Bookmark, 'id' | 'createdAt'>) => {
+  // 添加新书签
+  const handleAddBookmark = (bookmark: Omit<Bookmark, 'id' | 'createdAt'>) => {
+    const now = Date.now();
     const newBookmark: Bookmark = {
       ...bookmark,
-      id: Date.now().toString(),
-      createdAt: Date.now()
+      id: `bookmark_${now}`,
+      createdAt: now
     };
     
     setBookmarks([...bookmarks, newBookmark]);
     setIsFormVisible(false);
-  };
-
-  const updateBookmark = (updatedBookmark: Bookmark) => {
-    setBookmarks(
-      bookmarks.map(bookmark => 
-        bookmark.id === updatedBookmark.id ? updatedBookmark : bookmark
-      )
-    );
     setEditingBookmark(null);
+  };
+
+  // 更新书签
+  const handleUpdateBookmark = (updatedBookmark: Bookmark) => {
+    const updatedBookmarks = bookmarks.map(bookmark => 
+      bookmark.id === updatedBookmark.id ? updatedBookmark : bookmark
+    );
+    
+    setBookmarks(updatedBookmarks);
     setIsFormVisible(false);
+    setEditingBookmark(null);
   };
 
-  const deleteBookmark = (id: string) => {
-    setBookmarks(bookmarks.filter(bookmark => bookmark.id !== id));
+  // 删除书签
+  const handleDeleteBookmark = (id: string) => {
+    const updatedBookmarks = bookmarks.filter(bookmark => bookmark.id !== id);
+    setBookmarks(updatedBookmarks);
   };
 
-  const handleEdit = (bookmark: Bookmark) => {
+  // 编辑书签
+  const handleEditBookmark = (bookmark: Bookmark) => {
     setEditingBookmark(bookmark);
     setIsFormVisible(true);
   };
 
+  // 过滤书签
   const filteredBookmarks = bookmarks.filter(bookmark => {
     const matchesCategory = selectedCategory === '全部' || bookmark.category === selectedCategory;
     const matchesSearch = searchTerm === '' || 
       bookmark.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       bookmark.url.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (bookmark.description && bookmark.description.toLowerCase().includes(searchTerm.toLowerCase()));
+      bookmark.description?.toLowerCase().includes(searchTerm.toLowerCase());
     
     return matchesCategory && matchesSearch;
   });
 
   return (
-    <div className="bookmark-manager">
-      <div className="bookmark-header">
+    <div className={styles.bookmarkManager}>
+      <div className={styles.bookmarkHeader}>
         <h1>网址收藏</h1>
-        <div className="bookmark-actions">
+        <div className={styles.bookmarkActions}>
           <input
             type="text"
+            className={styles.searchInput}
             placeholder="搜索书签..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
           />
           <button 
-            className="add-button"
+            className={styles.addButton}
             onClick={() => {
-              setEditingBookmark(null);
               setIsFormVisible(true);
+              setEditingBookmark(null);
             }}
           >
             添加书签
           </button>
         </div>
       </div>
-
-      <div className="bookmark-content">
-        <div className="category-sidebar">
-          <h3>分类</h3>
-          <ul className="category-list">
-            {categories.map(category => (
-              <li 
-                key={category} 
-                className={`category-item ${selectedCategory === category ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category}
-              </li>
-            ))}
-          </ul>
+      
+      {isFormVisible ? (
+        <div className={styles.bookmarkFormContainer}>
+          <BookmarkForm
+            categories={categories.filter(cat => cat !== '全部')}
+            onSubmit={editingBookmark ? handleUpdateBookmark : handleAddBookmark}
+            onCancel={() => {
+              setIsFormVisible(false);
+              setEditingBookmark(null);
+            }}
+            initialData={editingBookmark}
+          />
         </div>
-
-        <div className="bookmark-main">
-          {isFormVisible ? (
-            <BookmarkForm 
-              onSubmit={editingBookmark ? updateBookmark : addBookmark}
-              onCancel={() => {
-                setIsFormVisible(false);
-                setEditingBookmark(null);
-              }}
-              categories={categories.filter(cat => cat !== '全部')}
-              editingBookmark={editingBookmark}
+      ) : (
+        <div className={styles.bookmarkContent}>
+          <div className={styles.categorySidebar}>
+            <ul className={styles.categoryList}>
+              {categories.map(category => (
+                <li
+                  key={category}
+                  className={`${styles.categoryItem} ${selectedCategory === category ? styles.active : ''}`}
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          <div className={styles.bookmarkMain}>
+            <BookmarkList
+              bookmarks={filteredBookmarks}
+              onEdit={handleEditBookmark}
+              onDelete={handleDeleteBookmark}
             />
-          ) : (
-            <BookmarkList 
-              bookmarks={filteredBookmarks} 
-              onEdit={handleEdit} 
-              onDelete={deleteBookmark} 
-            />
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

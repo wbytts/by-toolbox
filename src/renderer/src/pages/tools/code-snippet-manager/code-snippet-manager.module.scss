@@ -1,0 +1,130 @@
+.snippetManager {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+}
+
+.snippetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.snippetHeader h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.snippetActions {
+  display: flex;
+  gap: 10px;
+}
+
+.searchInput {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  width: 250px;
+  font-size: 14px;
+}
+
+.addButton {
+  padding: 8px 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.addButton:hover {
+  background-color: #555;
+}
+
+.snippetContent {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.categorySidebar {
+  width: 200px;
+  border-right: 1px solid #ddd;
+  padding-right: 20px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.categorySidebar h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+.categoryList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryItem {
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-color 0.2s;
+}
+
+.categoryItem:hover {
+  background-color: #f0f0f0;
+}
+
+.categoryItem.active {
+  background-color: #e6e6e6;
+  font-weight: 500;
+}
+
+.snippetMain {
+  flex: 1;
+  overflow-y: auto;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.emptySnippets {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #888;
+}
+
+.emptySnippets p {
+  margin-bottom: 15px;
+}
+
+.emptyHint {
+  font-size: 14px;
+  color: #888;
+}
+
+.formContainer {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+} 

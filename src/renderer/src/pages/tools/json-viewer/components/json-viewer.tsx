@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactJson from 'react-json-view';
+import styles from '../json-viewer.module.scss';
 
 export const JsonViewer = () => {
   const [jsonInput, setJsonInput] = useState<string>('');
@@ -21,12 +22,11 @@ export const JsonViewer = () => {
         setError(null);
         return;
       }
-      
       const parsed = JSON.parse(e.target.value);
       setJsonData(parsed);
       setError(null);
     } catch (err) {
-      setError('JSON 解析错误: ' + (err as Error).message);
+      setError('JSON 格式错误，请检查输入');
       setJsonData(null);
     }
   };
@@ -44,11 +44,13 @@ export const JsonViewer = () => {
         setJsonData(parsed);
         setError(null);
       } catch (err) {
-        setError('JSON 解析错误: ' + (err as Error).message);
+        setError('JSON 格式错误，请检查文件内容');
         setJsonData(null);
       }
     };
     reader.readAsText(file);
+    // 重置文件输入，以便可以再次选择同一文件
+    e.target.value = '';
   };
 
   const handleClear = () => {
@@ -58,38 +60,42 @@ export const JsonViewer = () => {
   };
 
   return (
-    <div className="json-viewer">
-      <div className="json-input-section">
-        <div className="input-header">
+    <div className={styles.jsonViewer}>
+      <div className={styles.jsonInputSection}>
+        <div className={styles.inputHeader}>
           <h3>输入 JSON</h3>
-          <div className="input-actions">
-            <input 
-              type="file" 
-              id="json-file" 
-              accept=".json" 
-              onChange={handleFileUpload} 
-              style={{ display: 'none' }} 
-            />
-            <label htmlFor="json-file" className="button upload-button">
-              上传 JSON 文件
+          <div className={styles.inputActions}>
+            <label className={`${styles.button} ${styles.uploadButton}`}>
+              上传文件
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleFileUpload}
+                style={{ display: 'none' }}
+              />
             </label>
-            <button className="button clear-button" onClick={handleClear}>
+            <button 
+              className={`${styles.button} ${styles.clearButton}`}
+              onClick={handleClear}
+            >
               清空
             </button>
           </div>
         </div>
         <textarea
+          className={styles.jsonTextarea}
           value={jsonInput}
           onChange={handleInputChange}
-          placeholder="在此粘贴 JSON 数据..."
-          className="json-textarea"
+          placeholder="在此粘贴或输入 JSON 数据..."
         />
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className={styles.errorMessage}>{error}</div>}
       </div>
 
-      <div className="json-output-section">
-        <h3>JSON 查看器</h3>
-        <div className="json-view-container">
+      <div className={styles.jsonOutputSection}>
+        <div className={styles.outputHeader}>
+          <h3>JSON 视图</h3>
+        </div>
+        <div className={styles.jsonViewContainer}>
           {jsonData ? (
             <ReactJson 
               src={jsonData} 
@@ -100,8 +106,8 @@ export const JsonViewer = () => {
               name={null}
             />
           ) : (
-            <div className="empty-state">
-              {error ? '请修复 JSON 错误' : '请输入有效的 JSON 数据'}
+            <div className={styles.emptyState}>
+              <p>在左侧输入 JSON 数据以查看格式化结果</p>
             </div>
           )}
         </div>

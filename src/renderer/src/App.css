@@ -32,7 +32,9 @@
   margin-bottom: 8px;
 }
 
-.nav-item a {
+.nav-item a,
+.nav-item a:link,
+.nav-item a:visited {
   display: block;
   padding: 10px 20px;
   color: #333;

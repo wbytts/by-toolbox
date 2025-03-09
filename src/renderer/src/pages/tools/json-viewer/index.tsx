@@ -1,24 +1,24 @@
 import { useState } from 'react';
 import { JsonViewer } from './components/json-viewer';
 import { JsonFormatter } from './components/json-formatter';
-import './json-viewer.css';
+import styles from './json-viewer.module.scss';
 
 const JsonViewerTool = () => {
   const [activeTab, setActiveTab] = useState<'viewer' | 'formatter'>('viewer');
 
   return (
-    <div className="json-tool-container">
-      <div className="json-tool-header">
+    <div className={styles.jsonToolContainer}>
+      <div className={styles.jsonToolHeader}>
         <h1>JSON 工具</h1>
-        <div className="json-tool-tabs">
+        <div className={styles.jsonToolTabs}>
           <button 
-            className={`tab-button ${activeTab === 'viewer' ? 'active' : ''}`}
+            className={`${styles.tabButton} ${activeTab === 'viewer' ? styles.active : ''}`}
             onClick={() => setActiveTab('viewer')}
           >
             JSON 查看器
           </button>
           <button 
-            className={`tab-button ${activeTab === 'formatter' ? 'active' : ''}`}
+            className={`${styles.tabButton} ${activeTab === 'formatter' ? styles.active : ''}`}
             onClick={() => setActiveTab('formatter')}
           >
             JSON 格式化
@@ -26,7 +26,7 @@ const JsonViewerTool = () => {
         </div>
       </div>
 
-      <div className="json-tool-content">
+      <div className={styles.jsonToolContent}>
         {activeTab === 'viewer' ? <JsonViewer /> : <JsonFormatter />}
       </div>
     </div>

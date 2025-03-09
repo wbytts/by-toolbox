@@ -1,0 +1,159 @@
+.snippetViewer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.snippetViewerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.snippetViewerTitle {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.snippetViewerInfo {
+  margin-bottom: 20px;
+}
+
+.snippetViewerLanguage {
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+  font-size: 12px;
+  color: #555;
+  margin-right: 10px;
+}
+
+.snippetViewerCategory {
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+  font-size: 12px;
+  color: #555;
+}
+
+.snippetViewerDescription {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.snippetViewerTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.snippetTag {
+  padding: 2px 8px;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+  font-size: 12px;
+  color: #555;
+}
+
+.snippetViewerCode {
+  flex: 1;
+  overflow: auto;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 15px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  margin-bottom: 20px;
+  position: relative;
+  min-height: 200px;
+}
+
+.copyIndicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 2px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.copyIndicatorVisible {
+  opacity: 1;
+}
+
+.snippetViewerCode:hover::after {
+  content: "点击复制代码";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+
+.snippetViewerActions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.snippetViewerDate {
+  font-size: 12px;
+  color: #888;
+}
+
+.snippetActions {
+  display: flex;
+  gap: 10px;
+}
+
+.backButton, .editButton, .deleteButton {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.backButton {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.backButton:hover {
+  background-color: #e6e6e6;
+}
+
+.editButton {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.editButton:hover {
+  background-color: #e6e6e6;
+}
+
+.deleteButton {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.deleteButton:hover {
+  background-color: #e6e6e6;
+} 

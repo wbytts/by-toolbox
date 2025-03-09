@@ -51,14 +51,7 @@ body {
 }
 
 /* 确保所有可滚动区域都有漂亮的滚动条 */
-.app-sidebar,
-.main-content,
-.json-textarea,
-.json-view-container,
-.formatted-output,
-.category-sidebar,
-.bookmark-main,
-.bookmark-form-container {
+.beautify-scrollbar {
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: #888 #f0f0f0; /* Firefox */
 } 

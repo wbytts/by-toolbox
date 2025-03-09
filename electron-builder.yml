@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: by-toolbox
+productName: 冰冰工具箱
 directories:
   buildResources: build
 files:
@@ -12,7 +12,8 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: by-toolbox
+  executableName: 冰冰工具箱
+  icon: build/rollup.jpg
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

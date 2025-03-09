@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../bookmark-manager.module.scss';
 
 interface Bookmark {
   id: string;
@@ -33,43 +34,43 @@ export const BookmarkList: React.FC<BookmarkListProps> = ({ bookmarks, onEdit, o
 
   if (bookmarks.length === 0) {
     return (
-      <div className="empty-bookmarks">
+      <div className={styles.emptyBookmarks}>
         <p>暂无书签</p>
-        <p className="empty-hint">点击"添加书签"按钮开始收藏网址</p>
+        <p className={styles.emptyHint}>点击"添加书签"按钮开始收藏网址</p>
       </div>
     );
   }
 
   return (
-    <div className="bookmark-list">
+    <div className={styles.bookmarkList}>
       {bookmarks.map(bookmark => (
-        <div key={bookmark.id} className="bookmark-card">
-          <div className="bookmark-card-header">
-            <h3 className="bookmark-title" onClick={() => handleOpenUrl(bookmark.url)}>
+        <div key={bookmark.id} className={styles.bookmarkCard}>
+          <div className={styles.bookmarkCardHeader}>
+            <h3 className={styles.bookmarkTitle} onClick={() => handleOpenUrl(bookmark.url)}>
               {bookmark.title}
             </h3>
-            <div className="bookmark-category">{bookmark.category}</div>
+            <div className={styles.bookmarkCategory}>{bookmark.category}</div>
           </div>
           
-          <div className="bookmark-url" onClick={() => handleOpenUrl(bookmark.url)}>
+          <div className={styles.bookmarkUrl} onClick={() => handleOpenUrl(bookmark.url)}>
             {bookmark.url}
           </div>
           
           {bookmark.description && (
-            <div className="bookmark-description">{bookmark.description}</div>
+            <div className={styles.bookmarkDescription}>{bookmark.description}</div>
           )}
           
-          <div className="bookmark-footer">
-            <div className="bookmark-date">添加于: {formatDate(bookmark.createdAt)}</div>
-            <div className="bookmark-actions">
+          <div className={styles.bookmarkFooter}>
+            <div className={styles.bookmarkDate}>添加于: {formatDate(bookmark.createdAt)}</div>
+            <div className={styles.bookmarkActions}>
               <button 
-                className="edit-button"
+                className={styles.editButton}
                 onClick={() => onEdit(bookmark)}
               >
                 编辑
               </button>
               <button 
-                className="delete-button"
+                className={styles.deleteButton}
                 onClick={() => {
                   if (window.confirm('确定要删除这个书签吗？')) {
                     onDelete(bookmark.id);
