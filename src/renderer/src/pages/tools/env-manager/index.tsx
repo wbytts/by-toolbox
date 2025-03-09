@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './env-manager.module.scss';
+import PathEditor from './components/PathEditor';
 
 interface EnvVariable {
   name: string;
@@ -285,14 +286,14 @@ const EnvManager: React.FC = () => {
                         </div>
                         {editMode[`${variable.type}-${variable.name}`] ? (
                           <div className={styles.editForm}>
-                            <textarea
+                            <PathEditor
                               value={editValues[`${variable.type}-${variable.name}`]}
-                              onChange={(e) => setEditValues(prev => ({ 
+                              onChange={(newValue) => setEditValues(prev => ({ 
                                 ...prev, 
-                                [`${variable.type}-${variable.name}`]: e.target.value 
+                                [`${variable.type}-${variable.name}`]: newValue 
                               }))}
-                              className={styles.valueTextarea}
-                              rows={3}
+                              variableName={variable.name}
+                              disabled={loading}
                             />
                             <div className={styles.editActions}>
                               <button
@@ -353,26 +354,27 @@ const EnvManager: React.FC = () => {
               placeholder="变量名称"
               value={newVarName}
               onChange={(e) => setNewVarName(e.target.value)}
-              disabled={loading}
               className={styles.inputField}
-            />
-            <textarea
-              placeholder="变量值"
-              value={newVarValue}
-              onChange={(e) => setNewVarValue(e.target.value)}
               disabled={loading}
-              className={styles.valueTextarea}
-              rows={3}
             />
+            
+            <PathEditor
+              value={newVarValue}
+              onChange={setNewVarValue}
+              variableName={newVarName}
+              disabled={loading}
+            />
+            
             <div className={styles.radioGroup}>
               <label className={styles.radioLabel}>
                 <input
                   type="radio"
                   name="varType"
+                  value="user"
                   checked={newVarType === 'user'}
                   onChange={() => setNewVarType('user')}
-                  disabled={loading}
                   className={styles.radioInput}
+                  disabled={loading}
                 />
                 用户变量
               </label>
@@ -380,14 +382,16 @@ const EnvManager: React.FC = () => {
                 <input
                   type="radio"
                   name="varType"
+                  value="system"
                   checked={newVarType === 'system'}
                   onChange={() => setNewVarType('system')}
-                  disabled={loading}
                   className={styles.radioInput}
+                  disabled={loading}
                 />
                 系统变量
               </label>
             </div>
+            
             <button
               onClick={addNewEnvVariable}
               disabled={loading || !newVarName.trim()}
@@ -401,23 +405,22 @@ const EnvManager: React.FC = () => {
         <div className={styles.envDescription}>
           <h3>关于环境变量</h3>
           <p>
-            环境变量是在操作系统中用来指定操作系统运行环境的一些参数。环境变量分为用户变量和系统变量：
+            环境变量是在操作系统中用于存储可由应用程序和系统进程访问的值的变量。它们可以影响程序的行为，并提供系统配置信息。
           </p>
           <ul>
-            <li><strong>用户变量</strong>: 仅对当前用户有效</li>
-            <li><strong>系统变量</strong>: 对所有用户有效</li>
+            <li><strong>用户环境变量</strong>：仅对当前用户可用</li>
+            <li><strong>系统环境变量</strong>：对所有用户可用</li>
           </ul>
           <p>
             常见的环境变量包括：
           </p>
           <ul>
-            <li><strong>PATH</strong>: 指定命令搜索路径</li>
-            <li><strong>TEMP/TMP</strong>: 临时文件目录</li>
-            <li><strong>JAVA_HOME</strong>: Java安装目录</li>
-            <li><strong>USERPROFILE</strong>: 用户主目录</li>
+            <li><strong>PATH</strong>：系统查找可执行文件的目录列表</li>
+            <li><strong>TEMP/TMP</strong>：临时文件的存储位置</li>
+            <li><strong>HOME/USERPROFILE</strong>：用户主目录</li>
           </ul>
           <p className={styles.warningText}>
-            注意：修改系统环境变量需要管理员权限，且修改某些关键环境变量可能会影响系统稳定性。
+            注意：修改系统环境变量需要管理员权限，且不当的修改可能会影响系统稳定性。
           </p>
         </div>
       </div>

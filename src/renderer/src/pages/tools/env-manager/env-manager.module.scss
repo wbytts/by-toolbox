@@ -412,4 +412,95 @@
   .variableActions {
     flex-direction: column;
   }
+}
+
+.pathEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.pathList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.pathItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.pathInput {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s;
+}
+
+.pathInput:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.pathActions {
+  display: flex;
+  gap: 4px;
+}
+
+.pathButton {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pathButton:hover {
+  background-color: #e0e0e0;
+}
+
+.pathButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.addPathButton {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+
+.addPathButton:hover {
+  background-color: #e0e0e0;
+}
+
+.addPathButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 } 
