@@ -34,6 +34,16 @@ declare global {
         setEnvVariable: (name: string, value: string, type: 'user' | 'system') => Promise<any>
         deleteEnvVariable: (name: string, type: 'user' | 'system') => Promise<any>
       }
+      projectManager: {
+        checkPath: (path: string) => Promise<any>
+        listDirectory: (path: string) => Promise<any>
+        readPackageJson: (path: string) => Promise<any>
+        cloneRepository: (url: string, path: string) => Promise<any>
+        getGitInfo: (path: string) => Promise<any>
+        runCommand: (command: string, cwd: string) => Promise<any>
+        getStats: (path: string) => Promise<any>
+        selectDirectory: () => Promise<any>
+      }
     }
   }
 }

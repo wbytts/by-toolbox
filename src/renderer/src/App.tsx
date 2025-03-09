@@ -5,6 +5,7 @@ import BookmarkManager from './pages/tools/bookmark-manager'
 import CodeSnippetManager from './pages/tools/code-snippet-manager'
 import NodeManager from './pages/tools/node-manager'
 import EnvManager from './pages/tools/env-manager'
+import ProjectManager from './pages/tools/project-manager'
 import TitleBar from './components/app-top-header'
 
 function App(): JSX.Element {
@@ -42,6 +43,11 @@ function App(): JSX.Element {
                   系统环境变量
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink to="/tools/project-manager" className={({ isActive }) => isActive ? 'active' : ''}>
+                  项目管理
+                </NavLink>
+              </li>
               {/* 未来可以在这里添加更多工具链接 */}
             </ul>
           </nav>
@@ -53,6 +59,7 @@ function App(): JSX.Element {
               <Route path="/tools/code-snippet-manager" element={<CodeSnippetManager />} />
               <Route path="/tools/node-manager" element={<NodeManager />} />
               <Route path="/tools/env-manager" element={<EnvManager />} />
+              <Route path="/tools/project-manager" element={<ProjectManager />} />
               {/* 未来可以在这里添加更多工具路由 */}
             </Routes>
           </main>

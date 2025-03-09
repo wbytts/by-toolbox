@@ -71,6 +71,48 @@ const api = {
     deleteEnvVariable: async (name: string, type: 'user' | 'system'): Promise<any> => {
       return await ipcRenderer.invoke('delete-env-variable', name, type)
     }
+  },
+  // 项目管理相关API
+  projectManager: {
+    // 检查路径是否存在
+    checkPath: (path: string): Promise<any> => {
+      return ipcRenderer.invoke('project-check-path', path)
+    },
+    
+    // 列出目录内容
+    listDirectory: (path: string): Promise<any> => {
+      return ipcRenderer.invoke('project-list-directory', path)
+    },
+    
+    // 读取package.json
+    readPackageJson: (path: string): Promise<any> => {
+      return ipcRenderer.invoke('project-read-package-json', path)
+    },
+    
+    // 克隆Git仓库
+    cloneRepository: (url: string, path: string): Promise<any> => {
+      return ipcRenderer.invoke('project-clone-repository', url, path)
+    },
+    
+    // 获取Git信息
+    getGitInfo: (path: string): Promise<any> => {
+      return ipcRenderer.invoke('project-get-git-info', path)
+    },
+    
+    // 运行命令
+    runCommand: (command: string, cwd: string): Promise<any> => {
+      return ipcRenderer.invoke('project-run-command', command, cwd)
+    },
+    
+    // 获取项目统计信息
+    getStats: (path: string): Promise<any> => {
+      return ipcRenderer.invoke('project-get-stats', path)
+    },
+    
+    // 选择目录
+    selectDirectory: (): Promise<any> => {
+      return ipcRenderer.invoke('project-select-directory')
+    }
   }
 }
 
