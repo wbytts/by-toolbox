@@ -2,6 +2,56 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/rollup.jpg?asset'
+import { exec, ExecOptions } from 'child_process'
+import { promisify } from 'util'
+import https from 'https'
+
+const execAsync = promisify(exec)
+
+// 从Node.js官方网站获取可用版本
+async function fetchNodeVersionsFromWebsite(): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    https.get('https://nodejs.org/en/about/previous-releases/', (res) => {
+      let data = '';
+      
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      
+      res.on('end', () => {
+        try {
+          // 解析HTML内容，提取版本信息
+          const versions: string[] = [];
+          const versionRegex = /v(\d+\.\d+\.\d+)/g;
+          let match;
+          
+          while ((match = versionRegex.exec(data)) !== null) {
+            versions.push(match[0]);
+          }
+          
+          // 去重并排序
+          const uniqueVersions = [...new Set(versions)].sort((a, b) => {
+            const aVer = a.substring(1).split('.').map(Number);
+            const bVer = b.substring(1).split('.').map(Number);
+            
+            // 主版本号比较
+            if (aVer[0] !== bVer[0]) return bVer[0] - aVer[0];
+            // 次版本号比较
+            if (aVer[1] !== bVer[1]) return bVer[1] - aVer[1];
+            // 补丁版本号比较
+            return bVer[2] - aVer[2];
+          });
+          
+          resolve(uniqueVersions);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }).on('error', (error) => {
+      reject(error);
+    });
+  });
+}
 
 function createWindow(): void {
   // 创建浏览器窗口
@@ -61,6 +111,272 @@ app.whenReady().then(() => {
 
   // IPC测试
   ipcMain.on('ping', () => console.log('pong'))
+
+  // Node.js 版本管理
+  ipcMain.handle('nvm-list', async () => {
+    console.log('执行nvm list命令...');
+    try {
+      // 尝试多种方式执行命令
+      let result;
+      
+      // 方式1: 直接执行
+      try {
+        console.log('尝试直接执行nvm list');
+        result = await execAsync('nvm list');
+      } catch (e) {
+        console.log('直接执行失败，尝试cmd /c方式');
+        
+        // 方式2: 使用cmd /c
+        try {
+          console.log('尝试使用cmd /c执行nvm list');
+          const options: ExecOptions = { windowsHide: true };
+          result = await execAsync('cmd /c nvm list', options);
+        } catch (e2) {
+          console.log('cmd /c执行失败，尝试PowerShell');
+          
+          // 方式3: 使用PowerShell
+          try {
+            console.log('尝试使用PowerShell执行nvm list');
+            const options: ExecOptions = { windowsHide: true };
+            result = await execAsync('powershell.exe -Command "nvm list"', options);
+          } catch (e3) {
+            console.log('PowerShell执行失败');
+            throw e3; // 所有方法都失败，抛出最后一个错误
+          }
+        }
+      }
+      
+      const { stdout, stderr } = result;
+      console.log('nvm list命令输出:', stdout);
+      
+      if (stderr && stderr.trim() !== '') {
+        console.error('nvm list命令错误:', stderr);
+        return { error: stderr };
+      }
+      
+      return { data: stdout };
+    } catch (error: any) {
+      console.error('执行nvm list命令失败:', error);
+      return { 
+        error: `执行nvm命令失败: ${error.message || '未知错误'}。请确认nvm已正确安装并添加到PATH环境变量。` 
+      };
+    }
+  });
+
+  ipcMain.handle('nvm-list-available', async () => {
+    console.log('获取可用Node.js版本...');
+    try {
+      // 尝试从官方网站获取版本信息
+      try {
+        console.log('从Node.js官方网站获取版本信息');
+        const versions = await fetchNodeVersionsFromWebsite();
+        console.log(`从官方网站获取到 ${versions.length} 个版本`);
+        return { data: versions.join('\n') };
+      } catch (e) {
+        console.log('从官方网站获取失败，尝试使用nvm命令');
+        
+        // 如果从网站获取失败，回退到使用nvm命令
+        let result;
+        
+        // 方式1: 直接执行
+        try {
+          console.log('尝试直接执行nvm list available');
+          result = await execAsync('nvm list available');
+        } catch (e) {
+          console.log('直接执行失败，尝试cmd /c方式');
+          
+          // 方式2: 使用cmd /c
+          try {
+            console.log('尝试使用cmd /c执行nvm list available');
+            const options: ExecOptions = { windowsHide: true };
+            result = await execAsync('cmd /c nvm list available', options);
+          } catch (e2) {
+            console.log('cmd /c执行失败，尝试PowerShell');
+            
+            // 方式3: 使用PowerShell
+            try {
+              console.log('尝试使用PowerShell执行nvm list available');
+              const options: ExecOptions = { windowsHide: true };
+              result = await execAsync('powershell.exe -Command "nvm list available"', options);
+            } catch (e3) {
+              console.log('PowerShell执行失败');
+              throw e3; // 所有方法都失败，抛出最后一个错误
+            }
+          }
+        }
+        
+        const { stdout, stderr } = result;
+        console.log('nvm list available命令输出长度:', stdout.length);
+        
+        if (stderr && stderr.trim() !== '') {
+          console.error('nvm list available命令错误:', stderr);
+          return { error: stderr };
+        }
+        
+        return { data: stdout };
+      }
+    } catch (error: any) {
+      console.error('获取可用Node.js版本失败:', error);
+      return { error: error.message || '执行命令失败' };
+    }
+  });
+
+  ipcMain.handle('nvm-install', async (_, version) => {
+    const { stdout, stderr } = await execAsync(`nvm install ${version}`)
+    if (stderr) return { error: stderr }
+    return { data: stdout }
+  })
+
+  ipcMain.handle('nvm-use', async (_, version) => {
+    const { stdout, stderr } = await execAsync(`nvm use ${version}`)
+    if (stderr) return { error: stderr }
+    return { data: stdout }
+  })
+
+  ipcMain.handle('nvm-uninstall', async (_, version) => {
+    const { stdout, stderr } = await execAsync(`nvm uninstall ${version}`)
+    if (stderr) return { error: stderr }
+    return { data: stdout }
+  })
+
+  // NPM 镜像管理
+  ipcMain.handle('nrm-list', async () => {
+    console.log('执行nrm ls命令...');
+    try {
+      // 尝试多种方式执行命令
+      let result;
+      
+      // 方式1: 直接执行
+      try {
+        console.log('尝试直接执行nrm ls');
+        result = await execAsync('nrm ls');
+      } catch (e) {
+        console.log('直接执行失败，尝试cmd /c方式');
+        
+        // 方式2: 使用cmd /c
+        try {
+          console.log('尝试使用cmd /c执行nrm ls');
+          const options: ExecOptions = { windowsHide: true };
+          result = await execAsync('cmd /c nrm ls', options);
+        } catch (e2) {
+          console.log('cmd /c执行失败，尝试npx方式');
+          
+          // 方式3: 使用npx
+          try {
+            console.log('尝试使用npx执行nrm ls');
+            const options: ExecOptions = { windowsHide: true };
+            result = await execAsync('npx nrm ls', options);
+          } catch (e3) {
+            console.log('npx执行失败，尝试PowerShell');
+            
+            // 方式4: 使用PowerShell
+            try {
+              console.log('尝试使用PowerShell执行nrm ls');
+              const options: ExecOptions = { windowsHide: true };
+              result = await execAsync('powershell.exe -Command "nrm ls"', options);
+            } catch (e4) {
+              console.log('PowerShell执行失败');
+              throw e4; // 所有方法都失败，抛出最后一个错误
+            }
+          }
+        }
+      }
+      
+      const { stdout, stderr } = result;
+      console.log('nrm ls命令输出:', stdout);
+      
+      if (stderr && stderr.trim() !== '') {
+        console.error('nrm ls命令错误:', stderr);
+        return { error: stderr };
+      }
+      
+      return { data: stdout };
+    } catch (error: any) {
+      console.error('执行nrm ls命令失败:', error);
+      return { error: `执行nrm命令失败: ${error.message || '未知错误'}。请确认nrm已正确安装。` };
+    }
+  });
+
+  ipcMain.handle('nrm-current', async () => {
+    console.log('执行nrm current命令...');
+    try {
+      // 尝试多种方式执行命令
+      let result;
+      
+      // 方式1: 直接执行
+      try {
+        console.log('尝试直接执行nrm current');
+        result = await execAsync('nrm current');
+      } catch (e) {
+        console.log('直接执行失败，尝试cmd /c方式');
+        
+        // 方式2: 使用cmd /c
+        try {
+          console.log('尝试使用cmd /c执行nrm current');
+          const options: ExecOptions = { windowsHide: true };
+          result = await execAsync('cmd /c nrm current', options);
+        } catch (e2) {
+          console.log('cmd /c执行失败，尝试npx方式');
+          
+          // 方式3: 使用npx
+          try {
+            console.log('尝试使用npx执行nrm current');
+            const options: ExecOptions = { windowsHide: true };
+            result = await execAsync('npx nrm current', options);
+          } catch (e3) {
+            console.log('npx执行失败，尝试PowerShell');
+            
+            // 方式4: 使用PowerShell
+            try {
+              console.log('尝试使用PowerShell执行nrm current');
+              const options: ExecOptions = { windowsHide: true };
+              result = await execAsync('powershell.exe -Command "nrm current"', options);
+            } catch (e4) {
+              console.log('PowerShell执行失败');
+              throw e4; // 所有方法都失败，抛出最后一个错误
+            }
+          }
+        }
+      }
+      
+      const { stdout, stderr } = result;
+      console.log('nrm current命令输出:', stdout);
+      
+      if (stderr && stderr.trim() !== '') {
+        console.error('nrm current命令错误:', stderr);
+        return { error: stderr };
+      }
+      
+      return { data: stdout };
+    } catch (error: any) {
+      console.error('执行nrm current命令失败:', error);
+      return { error: error.message || '执行命令失败' };
+    }
+  });
+
+  ipcMain.handle('nrm-use', async (_, name) => {
+    const { stdout, stderr } = await execAsync(`nrm use ${name}`)
+    if (stderr) return { error: stderr }
+    return { data: stdout }
+  })
+
+  ipcMain.handle('nrm-add', async (_, name, url) => {
+    const { stdout, stderr } = await execAsync(`nrm add ${name} ${url}`)
+    if (stderr) return { error: stderr }
+    return { data: stdout }
+  })
+
+  ipcMain.handle('nrm-del', async (_, name) => {
+    const { stdout, stderr } = await execAsync(`nrm del ${name}`)
+    if (stderr) return { error: stderr }
+    return { data: stdout }
+  })
+
+  ipcMain.handle('nrm-test', async (_, name) => {
+    const { stdout, stderr } = await execAsync(`nrm test ${name}`)
+    if (stderr) return { error: stderr }
+    return { data: stdout }
+  })
 
   // 窗口控制
   ipcMain.on('window-minimize', () => {

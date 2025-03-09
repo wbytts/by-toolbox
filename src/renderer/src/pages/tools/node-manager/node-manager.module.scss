@@ -1,0 +1,675 @@
+.nodeManager {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+}
+
+.nodeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.nodeHeader h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.tabsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 4px;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.tabButton {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+  transition: all 0.2s;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.tabButton:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.tabButtonActive {
+  background-color: white;
+  color: #1976d2;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tabButtonActive::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #1976d2;
+  border-radius: 3px 3px 0 0;
+}
+
+@media (max-width: 768px) {
+  .tabsContainer {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  
+  .tabButton {
+    flex: 1 1 auto;
+    min-width: 120px;
+    text-align: center;
+  }
+}
+
+.contentArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.cardContent {
+  margin-bottom: 15px;
+}
+
+.versionList, .mirrorItems {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.versionItem, .mirrorItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #f8f8f8;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.versionItem:hover, .mirrorItem:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.versionName, .mirrorName {
+  font-weight: 500;
+  color: #333;
+}
+
+.currentVersion, .currentMirror {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.currentLabel {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  background-color: #e8f5e9;
+  color: #4caf50;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.mirrorUrl {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  word-break: break-all;
+}
+
+.mirrorInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0; /* 防止内容溢出 */
+}
+
+.versionActions, .mirrorActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.emptyMessage {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  border: 1px dashed #ddd;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  color: #666;
+}
+
+.installArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.installInput {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  font-size: 14px;
+}
+
+.refreshButton, .installButton, .useButton, .uninstallButton, .applyButton, .testButton, .deleteButton, .addButton {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.refreshButton:hover, .installButton:hover, .useButton:hover, .uninstallButton:hover, .applyButton:hover, .testButton:hover, .deleteButton:hover, .addButton:hover {
+  background-color: #e6e6e6;
+}
+
+.refreshButton:disabled, .installButton:disabled, .useButton:disabled, .uninstallButton:disabled, .applyButton:disabled, .testButton:disabled, .deleteButton:disabled, .addButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.installButton, .applyButton, .addButton {
+  background-color: #333;
+  color: white;
+  border: none;
+}
+
+.installButton:hover, .applyButton:hover, .addButton:hover {
+  background-color: #555;
+}
+
+.useButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+}
+
+.useButton:hover {
+  background-color: #45a049;
+}
+
+.testButton {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+}
+
+.testButton:hover {
+  background-color: #0b7dda;
+}
+
+.uninstallButton, .deleteButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.uninstallButton:hover, .deleteButton:hover {
+  background-color: #d32f2f;
+}
+
+.status {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-radius: 2px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.success {
+  color: #52c41a;
+}
+
+.error {
+  color: #f5222d;
+}
+
+.loading {
+  color: #1890ff;
+}
+
+.npmMirrors {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.mirrorItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 1px solid #eee;
+  border-radius: 2px;
+}
+
+.mirrorActions {
+  display: flex;
+  gap: 8px;
+}
+
+.addMirrorArea {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.mirrorInputGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.mirrorInput {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  font-size: 14px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #09f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.errorMessage {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #ffebee;
+  border-left: 4px solid #f44336;
+  color: #b71c1c;
+  border-radius: 2px;
+}
+
+.statusMessage {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #e8f5e9;
+  border-left: 4px solid #4caf50;
+  color: #1b5e20;
+  border-radius: 2px;
+}
+
+.testResult {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #e3f2fd;
+  border-left: 4px solid #2196f3;
+  color: #0d47a1;
+  border-radius: 2px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.testResult pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
+}
+
+.addMirrorForm {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.addMirrorForm h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+.formGroup {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.inputField {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #2196F3;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.sectionHeader h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.installedVersions, .availableVersions, .mirrorList {
+  flex: 1;
+}
+
+.versionSelector {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.versionSelect {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 32px;
+}
+
+.versionSelect:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.versionSelect optgroup {
+  font-weight: bold;
+  color: #555;
+  background-color: #f8f8f8;
+}
+
+.versionSelect option {
+  font-weight: normal;
+  color: #333;
+  background-color: white;
+  padding: 8px;
+}
+
+.configList, .packageList, .cacheList {
+  margin-bottom: 20px;
+}
+
+.configItems, .packageItems, .cacheItems {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.configItem, .packageItem, .cacheItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px;
+  background-color: #f8f8f8;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.configItem:hover, .packageItem:hover, .cacheItem:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.configInfo, .packageInfo, .cacheInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.configKey, .packageName, .cacheType {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.configValue, .packageVersion, .cacheSize {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  color: #555;
+  word-break: break-all;
+  margin-bottom: 4px;
+}
+
+.configDescription, .packageDescription, .cacheLocation {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  word-break: break-all;
+}
+
+.configActions, .packageActions, .cacheActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.editForm {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.addConfigForm, .installPackageForm {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.configSelect {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 32px;
+}
+
+.configSelect:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.searchContainer {
+  margin-bottom: 15px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.packageManagerSelector {
+  display: flex;
+  gap: 2px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.cacheDescription {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.cacheDescription h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.cacheDescription p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.cacheDescription ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #555;
+}
+
+.cacheDescription li {
+  margin-bottom: 5px;
+} 

@@ -21,6 +21,44 @@ const api = {
     isAlwaysOnTop: async (): Promise<boolean> => {
       return await ipcRenderer.invoke('window-get-always-on-top')
     }
+  },
+  // Node.js版本管理
+  nodeManager: {
+    // nvm相关操作
+    getInstalledVersions: async (): Promise<any> => {
+      return await ipcRenderer.invoke('nvm-list')
+    },
+    getAvailableVersions: async (): Promise<any> => {
+      return await ipcRenderer.invoke('nvm-list-available')
+    },
+    installVersion: async (version: string): Promise<any> => {
+      return await ipcRenderer.invoke('nvm-install', version)
+    },
+    useVersion: async (version: string): Promise<any> => {
+      return await ipcRenderer.invoke('nvm-use', version)
+    },
+    uninstallVersion: async (version: string): Promise<any> => {
+      return await ipcRenderer.invoke('nvm-uninstall', version)
+    },
+    // npm镜像管理
+    getNpmMirrors: async (): Promise<any> => {
+      return await ipcRenderer.invoke('nrm-list')
+    },
+    getCurrentMirror: async (): Promise<any> => {
+      return await ipcRenderer.invoke('nrm-current')
+    },
+    useMirror: async (name: string): Promise<any> => {
+      return await ipcRenderer.invoke('nrm-use', name)
+    },
+    addMirror: async (name: string, url: string): Promise<any> => {
+      return await ipcRenderer.invoke('nrm-add', name, url)
+    },
+    deleteMirror: async (name: string): Promise<any> => {
+      return await ipcRenderer.invoke('nrm-del', name)
+    },
+    testMirror: async (name: string): Promise<any> => {
+      return await ipcRenderer.invoke('nrm-test', name)
+    }
   }
 }
 
