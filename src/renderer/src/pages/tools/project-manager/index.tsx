@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './project-manager.module.scss';
 import { Project, ProjectType, ProjectSource, ProjectStatus, ProjectDetails } from './types';
-import ProjectList from './components/ProjectList';
-import ProjectDetail from './components/ProjectDetail';
-import AddProjectForm from './components/AddProjectForm';
+import ProjectList from './components/project-list';
+import ProjectDetail from './components/project-detail';
+import AddProjectForm from './components/add-project-form';
 import { projectTypeHandlers } from './project-handlers';
 
 const ProjectManager: React.FC = () => {

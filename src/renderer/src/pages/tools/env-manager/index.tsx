@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './env-manager.module.scss';
-import PathEditor from './components/PathEditor';
+import PathEditor from './components/path-editor';
 
 interface EnvVariable {
   name: string;
