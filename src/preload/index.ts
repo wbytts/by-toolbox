@@ -59,6 +59,18 @@ const api = {
     testMirror: async (name: string): Promise<any> => {
       return await ipcRenderer.invoke('nrm-test', name)
     }
+  },
+  // 系统环境变量管理
+  envManager: {
+    getEnvVariables: async (): Promise<any> => {
+      return await ipcRenderer.invoke('get-env-variables')
+    },
+    setEnvVariable: async (name: string, value: string, type: 'user' | 'system'): Promise<any> => {
+      return await ipcRenderer.invoke('set-env-variable', name, value, type)
+    },
+    deleteEnvVariable: async (name: string, type: 'user' | 'system'): Promise<any> => {
+      return await ipcRenderer.invoke('delete-env-variable', name, type)
+    }
   }
 }
 

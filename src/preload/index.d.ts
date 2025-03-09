@@ -29,6 +29,11 @@ declare global {
         deleteMirror: (name: string) => Promise<any>
         testMirror: (name: string) => Promise<any>
       }
+      envManager: {
+        getEnvVariables: () => Promise<any>
+        setEnvVariable: (name: string, value: string, type: 'user' | 'system') => Promise<any>
+        deleteEnvVariable: (name: string, type: 'user' | 'system') => Promise<any>
+      }
     }
   }
 }

@@ -420,6 +420,145 @@ app.whenReady().then(() => {
     return false
   })
 
+  // 系统环境变量管理
+  ipcMain.handle('get-env-variables', async () => {
+    console.log('获取系统环境变量...');
+    try {
+      // Windows系统使用PowerShell获取环境变量
+      if (process.platform === 'win32') {
+        // 获取用户环境变量
+        const userResult = await execAsync(
+          'powershell.exe -Command "[Environment]::GetEnvironmentVariables(\'User\') | ConvertTo-Json"',
+          { windowsHide: true }
+        );
+        
+        // 获取系统环境变量
+        const systemResult = await execAsync(
+          'powershell.exe -Command "[Environment]::GetEnvironmentVariables(\'Machine\') | ConvertTo-Json"',
+          { windowsHide: true }
+        );
+        
+        let userVars = {};
+        let systemVars = {};
+        
+        try {
+          userVars = JSON.parse(userResult.stdout);
+        } catch (e) {
+          console.error('解析用户环境变量失败:', e);
+        }
+        
+        try {
+          systemVars = JSON.parse(systemResult.stdout);
+        } catch (e) {
+          console.error('解析系统环境变量失败:', e);
+        }
+        
+        // 转换为数组格式
+        const userVarArray = Object.entries(userVars).map(([name, value]) => ({
+          name,
+          value: String(value),
+          type: 'user'
+        }));
+        
+        const systemVarArray = Object.entries(systemVars).map(([name, value]) => ({
+          name,
+          value: String(value),
+          type: 'system'
+        }));
+        
+        return { data: [...userVarArray, ...systemVarArray] };
+      } 
+      // Linux/macOS系统
+      else {
+        // 获取所有环境变量
+        const result = await execAsync('printenv');
+        
+        // 解析环境变量
+        const envVars = result.stdout.split('\n')
+          .filter(line => line.trim())
+          .map(line => {
+            const [name, ...valueParts] = line.split('=');
+            const value = valueParts.join('=');
+            return {
+              name,
+              value,
+              // 在Linux/macOS中无法轻易区分用户和系统变量，默认为用户变量
+              type: 'user'
+            };
+          });
+        
+        return { data: envVars };
+      }
+    } catch (error: any) {
+      console.error('获取环境变量失败:', error);
+      return { error: error.message || '获取环境变量失败' };
+    }
+  });
+
+  ipcMain.handle('set-env-variable', async (_, name, value, type) => {
+    console.log(`设置环境变量: ${name}=${value} (${type})`);
+    try {
+      // Windows系统
+      if (process.platform === 'win32') {
+        const scope = type === 'user' ? 'User' : 'Machine';
+        
+        // 使用PowerShell设置环境变量
+        const command = `powershell.exe -Command "[Environment]::SetEnvironmentVariable('${name}', '${value}', '${scope}')"`;
+        
+        // 需要管理员权限才能设置系统环境变量
+        if (type === 'system') {
+          // 这里可能需要提示用户以管理员身份运行
+          console.warn('设置系统环境变量需要管理员权限');
+        }
+        
+        await execAsync(command, { windowsHide: true });
+        return { success: true };
+      } 
+      // Linux/macOS系统
+      else {
+        // 在Linux/macOS中，通常通过修改配置文件来永久设置环境变量
+        // 这里只是临时设置，实际应用中应该修改~/.bashrc或/etc/environment等文件
+        process.env[name] = value;
+        return { success: true, warning: '在Linux/macOS中，这只是临时设置环境变量' };
+      }
+    } catch (error: any) {
+      console.error('设置环境变量失败:', error);
+      return { error: error.message || '设置环境变量失败' };
+    }
+  });
+
+  ipcMain.handle('delete-env-variable', async (_, name, type) => {
+    console.log(`删除环境变量: ${name} (${type})`);
+    try {
+      // Windows系统
+      if (process.platform === 'win32') {
+        const scope = type === 'user' ? 'User' : 'Machine';
+        
+        // 使用PowerShell删除环境变量
+        const command = `powershell.exe -Command "[Environment]::SetEnvironmentVariable('${name}', $null, '${scope}')"`;
+        
+        // 需要管理员权限才能删除系统环境变量
+        if (type === 'system') {
+          // 这里可能需要提示用户以管理员身份运行
+          console.warn('删除系统环境变量需要管理员权限');
+        }
+        
+        await execAsync(command, { windowsHide: true });
+        return { success: true };
+      } 
+      // Linux/macOS系统
+      else {
+        // 在Linux/macOS中，通常通过修改配置文件来永久删除环境变量
+        // 这里只是临时删除，实际应用中应该修改~/.bashrc或/etc/environment等文件
+        delete process.env[name];
+        return { success: true, warning: '在Linux/macOS中，这只是临时删除环境变量' };
+      }
+    } catch (error: any) {
+      console.error('删除环境变量失败:', error);
+      return { error: error.message || '删除环境变量失败' };
+    }
+  });
+
   createWindow()
 
   app.on('activate', function () {
